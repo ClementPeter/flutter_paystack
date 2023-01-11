@@ -43,31 +43,32 @@ class MakePayment {
             price! * 100 //rounding the price to a whole naira and removing kobo
         ..email = email!
         ..reference = _getReference()
-        //..accessCode = "12345" // used for selectable check out to show bank names
-        ..putCustomField("displayName", "value")
+        //..accessCode ="Zenith bank" //used for "CheckOutMethod.selectable" check out to show bank names
+        ..putCustomField("Charged from", "Velobox")
         ..card = _getCardUI();
 
       final response = await paystackPlugin.checkout(
         ctx!,
         charge: charge,
+        method: CheckoutMethod.card, //Comment if your'e using access code
         logo: const FlutterLogo(),
       );
-
-      print("RESPONSE::::::::::::::::::::::::::::::::::::::$response");
-
+      print("RESPONSE:::::::::::::::::::::::::::::$response");
       //LAST- Function to perform if the trasaction is a succes or failure
       if (response.status == true) {
         ScaffoldMessenger.of(ctx!).showSnackBar(
           const SnackBar(
             backgroundColor: Colors.green,
-            content: Text(" Transaction Successful"),
+            duration: Duration(seconds: 3),
+            content: Text("Transaction Successful"),
           ),
         );
       } else {
         ScaffoldMessenger.of(ctx!).showSnackBar(
           const SnackBar(
             backgroundColor: Colors.red,
-            content: Text("Transaction failed"),
+            duration: Duration(seconds: 3),
+            content: Text("Transaction Cancelled"),
           ),
         );
       }

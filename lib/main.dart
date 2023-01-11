@@ -41,10 +41,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   //Map containing list of shop items in our app
   final List<Map<String, Object>> shopItems = [
-    {'price': 1000, "items": "Milo"},
-    {'price': 2000, "items": "Milk"},
-    {'price': 3000, "items": "Kellogs"},
-    {'price': 4000, "items": "SD Card"},
+    {'price': 1000, "item": "Milo"},
+    {'price': 2000, "item": "Milk"},
+    {'price': 3000, "item": "Parfait"},
+    {'price': 4000, "item": "Kellogs"},
   ];
   @override
   Widget build(BuildContext context) {
@@ -74,91 +74,93 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: GridView(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 5,
-                      ),
-                      children: List.generate(
-                        shopItems.length,
-                        (index) {
-                          final data = shopItems[index];
-                          return GestureDetector(
-                            onTap: () {
-                              setState(
-                                () {
-                                  selectedIndex =
-                                      index; //identify the grid selected to get the item and price
-                                  //price = data["price"] as int;
-                                  // print(price);
-                                },
-                              );
-                            },
-                            child: Card(
-                              elevation: 5,
-                              shadowColor: Colors.green,
-                              child: Container(
-                                color: selectedIndex == null
-                                    ? null
-                                    : selectedIndex == index
-                                        ? const Color.fromARGB(182, 76, 175, 79)
-                                        : null,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'Price: N ${data['price']}',
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Items: ${data['items']}',
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 5,
+                    ),
+                    // children: List.generate(
+                    //   shopItems.length,
+                    //   (index) {
+                    //     final data = shopItems[index];
+                    //     return GestureDetector(
+                    //       onTap: () {
+                    //   setState(
+                    //     () {
+                    //       selectedIndex =
+                    //           index; //identify the grid selected to get the item and price
+                    //       price = data["price"] as int;
+                    //       print(
+                    //           "Grid view Selected price::::::::::::::::$price");
+                    //     },
+                    //   );
+                    // },
+                    //       child: Card(
+                    //         elevation: 5,
+                    //         shadowColor: Colors.green,
+                    //         child: Container(
+                    //           color: selectedIndex == null
+                    //               ? null
+                    //               : selectedIndex == index
+                    //                   ? const Color.fromARGB(182, 76, 175, 79)
+                    //                   : null,
+                    //           child: Column(
+                    //             mainAxisAlignment: MainAxisAlignment.center,
+                    //             children: [
+                    // Text(
+                    //   'Price: N${data['price']}',
+                    //   style: const TextStyle(
+                    //     fontSize: 20,
+                    //     fontWeight: FontWeight.bold,
+                    //   ),
+                    // ),
+                    //               Text(
+                    //                 'Items: ${data['item']}',
+                    //                 style: const TextStyle(
+                    //                   fontSize: 20,
+                    //                   fontWeight: FontWeight.bold,
+                    //                 ),
+                    //               ),
+                    //             ],
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     );
+                    //   },
+                    // )
+                    //Works the same way as the above
+                    children: shopItems.map((shopItem) {
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selectedIndex = shopItem as int?;
+                          });
+                        },
+                        child: Card(
+                          shadowColor: Colors.green,
+                          child: Column(
+                            children: [
+                              Text(
+                                'Price: N${shopItem['price']}',
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            ),
-                          );
-                        },
-                      )
-                      //Works the same way as the above
-                      // shopItems
-                      //     .map(
-                      //       (shopItem) => Card(
-                      //         color: Colors.green,
-                      //         child: Column(
-                      //           children: [
-                      //             Text(
-                      //               'Price: \$${shopItem['price']}',
-                      //               style: const TextStyle(
-                      //                 fontSize: 20,
-                      //                 fontWeight: FontWeight.bold,
-                      //               ),
-                      //             ),
-                      //             Text(
-                      //               'Items: ${shopItem['items']}',
-                      //               style: const TextStyle(
-                      //                 fontSize: 20,
-                      //                 fontWeight: FontWeight.bold,
-                      //               ),
-                      //             ),
-                      //             // ElevatedButton(
-                      //             //   onPressed: () {},
-                      //             //   child: const Text('Buy'),
-                      //             // ),
-                      //           ],
-                      //         ),
-                      //       ),
-                      //     )
-                      //     .toList(),
-                      ),
+                              Text(
+                                'Items: N${shopItem['items']}',
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
                 ),
               ),
 
@@ -178,7 +180,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       );
                     } else {
                       //make payment via paystack
-                      print(price);
+                      print(
+                          "Grid view Selected price:::::::::::::::::::$price");
                       MakePayment(ctx: context, price: price, email: email)
                           .chargeCardAndMakePayment();
                     }
@@ -209,7 +212,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20)
+              const SizedBox(height: 50)
             ],
           ),
         ),
