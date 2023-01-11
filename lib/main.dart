@@ -74,104 +74,68 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: GridView(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 5,
-                    ),
-                    // children: List.generate(
-                    //   shopItems.length,
-                    //   (index) {
-                    //     final data = shopItems[index];
-                    //     return GestureDetector(
-                    //       onTap: () {
-                    //   setState(
-                    //     () {
-                    //       selectedIndex =
-                    //           index; //identify the grid selected to get the item and price
-                    //       price = data["price"] as int;
-                    //       print(
-                    //           "Grid view Selected price::::::::::::::::$price");
-                    //     },
-                    //   );
-                    // },
-                    //       child: Card(
-                    //         elevation: 5,
-                    //         shadowColor: Colors.green,
-                    //         child: Container(
-                    //           color: selectedIndex == null
-                    //               ? null
-                    //               : selectedIndex == index
-                    //                   ? const Color.fromARGB(182, 76, 175, 79)
-                    //                   : null,
-                    //           child: Column(
-                    //             mainAxisAlignment: MainAxisAlignment.center,
-                    //             children: [
-                    // Text(
-                    //   'Price: N${data['price']}',
-                    //   style: const TextStyle(
-                    //     fontSize: 20,
-                    //     fontWeight: FontWeight.bold,
-                    //   ),
-                    // ),
-                    //               Text(
-                    //                 'Items: ${data['item']}',
-                    //                 style: const TextStyle(
-                    //                   fontSize: 20,
-                    //                   fontWeight: FontWeight.bold,
-                    //                 ),
-                    //               ),
-                    //             ],
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     );
-                    //   },
-                    // )
-                    //Works the same way as the above
-                    children: shopItems.map((shopItem) {
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            selectedIndex = shopItem as int?;
-                          });
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 5,
+                      ),
+                      children: List.generate(
+                        shopItems.length,
+                        (index) {
+                          final data = shopItems[index];
+                          return GestureDetector(
+                            onTap: () {
+                              setState(
+                                () {
+                                  selectedIndex =
+                                      index; //identify the grid selected to get the item and price
+                                  price = data["price"] as int;
+                                  //print("Grid view Selected price::::::::::::::::$price");
+                                },
+                              );
+                            },
+                            child: Card(
+                              elevation: 5,
+                              shadowColor: Colors.green,
+                              child: Container(
+                                color: selectedIndex == null
+                                    ? null
+                                    : selectedIndex == index
+                                        ? const Color.fromARGB(182, 76, 175, 79)
+                                        : null,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Price: N${data['price']}',
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Items: ${data['item']}',
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
                         },
-                        child: Card(
-                          shadowColor: Colors.green,
-                          child: Column(
-                            children: [
-                              Text(
-                                'Price: N${shopItem['price']}',
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                'Items: N${shopItem['items']}',
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
+                      )),
                 ),
               ),
-
               //Make payment Button
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30.0),
                 child: GestureDetector(
                   onTap: () {
-                    //Trigger paystack payment
-
-                    //if no item is selected
+                    //Trigger paystack payment, if an item is selected
                     if (selectedIndex == null) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
